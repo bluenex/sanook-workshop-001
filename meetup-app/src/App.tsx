@@ -1,61 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import styled, { keyframes } from 'styled-components';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
 const Container = styled.div`
   text-align: center;
 `;
 
-const Header = styled.header`
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-`;
-
-const logoRotation = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const AnimatedLogo = styled.img`
-  animation: ${logoRotation} infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-`;
-
-const CommonLink = styled.a`
-  color: #61dafb;
-`;
-
 const App: React.FC = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // show alert with input values
+    alert(`
+    Hi ${name}!
+    Email: ${email}
+    Message: ${message}
+    `);
+    // reset value in the state
+    setName("");
+    setEmail("");
+    setMessage("");
+  }
+
   return (
     <Container>
-      <Header>
-        <AnimatedLogo
-          src={logo}
-          alt="logo"
-        />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <CommonLink
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </CommonLink>
-      </Header>
+      <div>
+        <h3>Hi there!</h3>
+        <form onSubmit={submitForm}>
+          <input
+            type="text"
+            placeholder="Name"
+            name="name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <textarea
+            rows={4}
+            placeholder="Message"
+            name="message"
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+          >
+          </textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
     </Container>
   );
 }
